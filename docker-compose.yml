@@ -1,0 +1,24 @@
+version: '3'
+services:
+  bougacha:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=devopsbouga
+    ports:
+      - "3308:3306"
+    volumes:
+      - db:/var/lib/mysql
+  backend:
+    depends_on:
+      - bougacha
+    build: ./
+    restart: on-failure
+    ports:
+      - "8094:8089"
+    stdin_open: true
+    tty: true
+    volumes:
+      - .m2:/root/.m2
+volumes:
+  db:
